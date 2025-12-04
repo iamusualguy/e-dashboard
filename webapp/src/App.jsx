@@ -32,8 +32,17 @@ export default function App() {
         }
       }
 
+      // Filter out trips that have already departed
+      const now = new Date();
+      const futureTrips = allTrips.filter((trip) => {
+        const departureTime = new Date(
+          trip.legs[0]?.actualDeparture || trip.legs[0]?.plannedDeparture,
+        );
+        return departureTime > now;
+      });
+
       // Sort by departure time
-      allTrips.sort((a, b) => {
+      futureTrips.sort((a, b) => {
         const timeA = new Date(
           a.legs[0]?.actualDeparture || a.legs[0]?.plannedDeparture,
         );
@@ -43,7 +52,7 @@ export default function App() {
         return timeA - timeB;
       });
 
-      setTrips(allTrips);
+      setTrips(futureTrips);
       setLastUpdated(new Date());
     } catch (e) {
       console.error("Error fetching trips:", e);
