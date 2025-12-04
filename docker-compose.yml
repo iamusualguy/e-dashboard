@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  ns-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3039:3000"
+    environment:
+      - NS_API_KEY=${NS_API_KEY}
+      - PORT=3000
+    restart: unless-stopped
