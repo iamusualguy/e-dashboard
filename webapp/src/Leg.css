@@ -1,3 +1,7 @@
+:root {
+  --time-text-stroke: 3px;
+}
+
 /* Individual leg row */
 .leg-row {
   padding: 10px;
@@ -39,10 +43,15 @@
   font-weight: 900;
   font-size: 70px;
   line-height: 1;
-  color: #000;
+  color: transparent;
   letter-spacing: -2px;
   text-align: center;
   min-width: 120px;
+  -webkit-text-stroke: var(--time-text-stroke) #000;
+  background: repeating-conic-gradient(#999 0% 25%, transparent 0% 100%) 50% /
+    4px 4px;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 /* Stations cell - collapsible */
@@ -99,4 +108,7 @@
   font-size: 24px;
   color: #d00;
   vertical-align: middle;
+}
+.direction {
+  text-align: center;
 }

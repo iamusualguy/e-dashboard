@@ -32,9 +32,9 @@ async function generateDashboardScreenshot() {
 
   let browser;
   try {
-    browser = await chromium.launch({ 
+    browser = await chromium.launch({
       headless: true,
-      executablePath: '/usr/bin/chromium-browser'
+      executablePath: "/usr/bin/chromium-browser",
     });
     const page = await browser.newPage();
     await page.setViewportSize({ width: 748, height: 1072 });
@@ -137,6 +137,7 @@ app.get("/trips", async (req, res) => {
     }
 
     const json = await apiRes.json();
+    // console.log(json.trips[0].legs[0]);
     const trips = (json.trips || []).map((trip) => ({
       uid: trip.uid,
       plannedDurationInMinutes: trip.plannedDurationInMinutes,
@@ -145,6 +146,7 @@ app.get("/trips", async (req, res) => {
       status: trip.status,
       legs: (trip.legs || []).map((leg) => ({
         origin: leg.origin?.name,
+        direction: leg.direction,
         destination: leg.destination?.name,
         product: leg.product?.displayName || leg.product?.categoryCode,
         plannedDeparture: leg.origin?.plannedDateTime,

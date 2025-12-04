@@ -43,6 +43,7 @@ export default function Leg({ leg, isLastLeg, isFirstLeg }) {
         </div>
       ) : null}
       {/* "trip" */}
+      <div className="direction">{leg.direction}</div>
       {isLastLeg ? (
         <div className="time-cell arr-time">
           {arrTime.toLocaleTimeString("nl-NL", {
