@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import Trip from "./Trip";
 
 export default function App() {
   const [trips, setTrips] = useState([]);
@@ -107,129 +108,9 @@ export default function App() {
         <div className="loading">Geen reizen gevonden</div>
       ) : (
         <div className="trips-section">
-          {trips.map((trip, idx) => {
-            const totalDuration =
-              trip.actualDurationInMinutes || trip.plannedDurationInMinutes;
-            const firstLeg = trip.legs[0];
-            const lastLeg = trip.legs[trip.legs.length - 1];
-            const departureTime = new Date(
-              firstLeg?.actualDeparture || firstLeg?.plannedDeparture,
-            );
-            const arrivalTime = new Date(
-              lastLeg?.actualArrival || lastLeg?.plannedArrival,
-            );
-
-            const filteredLegs = onlyTrains
-              ? trip.legs.filter(
-                  (leg) =>
-                    leg.product &&
-                    (leg.product.includes("Sprinter") ||
-                      leg.product.includes("Intercity")),
-                )
-              : trip.legs;
-
-            return (
-              <div key={trip.uid || idx} className="trip-card">
-                <div className="trip-header">
-                  <span>
-                    {departureTime.toLocaleTimeString("nl-NL", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}{" "}
-                    →{" "}
-                    {arrivalTime.toLocaleTimeString("nl-NL", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}
-                  </span>
-                  <span className="trip-duration">
-                    {totalDuration} min | {trip.transfers} overstap
-                    {trip.transfers !== 1 ? "pen" : ""}
-                  </span>
-                </div>
-
-                <div className="legs-container">
-                  {filteredLegs.map((leg, legIdx) => {
-                    const depTime = new Date(
-                      leg.actualDeparture || leg.plannedDeparture,
-                    );
-                    const arrTime = new Date(
-                      leg.actualArrival || leg.plannedArrival,
-                    );
-                    const delayed =
-                      leg.actualDeparture &&
-                      leg.plannedDeparture &&
-                      new Date(leg.actualDeparture) >
-                        new Date(leg.plannedDeparture);
-                    const isLastLeg = legIdx === filteredLegs.length - 1;
-
-                    return (
-                      <div
-                        key={legIdx}
-                        className={`leg-row ${leg.cancelled ? "cancelled" : ""} ${!isLastLeg ? "with-separator" : ""}`}
-                      >
-                        <div className="leg-content">
-                          {/* <div className="train-info"> */}
-                          {/*   <span className="train-name">{leg.product || 'Lopen'}</span> */}
-                          {/*   <span className="status-icon"> */}
-                          {/*     {leg.cancelled ? '✕' : delayed ? '▲' : '✓'} */}
-                          {/*   </span> */}
-                          {/* </div> */}
-
-                          <div className="time-cell dep-time">
-                            {depTime.toLocaleTimeString("nl-NL", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              hour12: false,
-                            })}
-                            {delayed && (
-                              <span className="delay-indicator">▲</span>
-                            )}
-                          </div>
-
-                          <div className="stations-cell">
-                            <div className="station-line">
-                              <span className="station-name">{leg.origin}</span>
-                              <span className="platform-info">
-                                <span
-                                  className={`platform-cell ${leg.departurePlatformChanged ? "changed" : ""}`}
-                                >
-                                  {leg.departureTrack || "—"}
-                                </span>
-                              </span>
-                            </div>
-                            <div className="station-separator">→</div>
-                            <div className="station-line">
-                              <span className="station-name">
-                                {leg.destination}
-                              </span>
-                              <span className="platform-info">
-                                <span
-                                  className={`platform-cell ${leg.arrivalPlatformChanged ? "changed" : ""}`}
-                                >
-                                  {leg.arrivalTrack || "—"}
-                                </span>
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="time-cell arr-time">
-                            {arrTime.toLocaleTimeString("nl-NL", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              hour12: false,
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+          {trips.map((trip, idx) => (
+            <Trip key={trip.uid || idx} trip={trip} onlyTrains={onlyTrains} />
+          ))}
         </div>
       )}
     </div>

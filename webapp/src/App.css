@@ -47,11 +47,13 @@ h1 {
 
 .trips-section {
   margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .trip-card {
   border: 3px solid #000;
-  margin-bottom: 30px;
+  margin: 10px;
   background-color: #fff;
 }
 
@@ -78,7 +80,7 @@ h1 {
 .legs-container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  /* padding: 20px; */
   gap: 0;
 }
 
@@ -108,7 +110,7 @@ h1 {
 /* Leg content - horizontal layout */
 .leg-content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   gap: 30px;
   justify-content: space-between;
@@ -181,7 +183,6 @@ h1 {
 
 /* Platform info - SMALL */
 .platform-info {
-  font-size: 12px;
   color: #666;
   white-space: nowrap;
 }
@@ -217,45 +218,4 @@ h1 {
   background: #fee;
   border: 2px solid #d00;
   margin: 20px 0;
-}
-
-/* Responsive - narrow screens */
-@media (max-width: 1024px) {
-  .leg-content {
-    gap: 15px;
-  }
-  
-  .time-cell {
-    font-size: 36px;
-    min-width: 90px;
-  }
-  
-  .stations-cell {
-    padding: 0 10px;
-  }
-  
-  .station-name {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  .leg-content {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .train-info {
-    width: 100%;
-  }
-  
-  .stations-cell {
-    order: 3;
-    width: 100%;
-    max-width: none;
-  }
-  
-  .time-cell {
-    font-size: 32px;
-  }
 }
