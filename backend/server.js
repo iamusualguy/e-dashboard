@@ -32,7 +32,10 @@ async function generateDashboardScreenshot() {
 
   let browser;
   try {
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ 
+      headless: true,
+      executablePath: '/usr/bin/chromium-browser'
+    });
     const page = await browser.newPage();
     await page.setViewportSize({ width: 748, height: 1072 });
     await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
@@ -52,7 +55,7 @@ async function generateDashboardScreenshot() {
 }
 
 // Generate screenshot every 5 minutes
-const SCREENSHOT_INTERVAL = 5 * 60 * 1000;
+const SCREENSHOT_INTERVAL = 1 * 60 * 1000;
 
 app.get("/health", (req, res) =>
   res.json({ ok: true, time: new Date().toISOString() }),

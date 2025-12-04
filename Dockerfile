@@ -25,11 +25,12 @@ RUN apk add --no-cache \
     freetype \
     harfbuzz \
     ca-certificates \
-    ttf-freefont
+    ttf-freefont \
+    font-noto-emoji
 
-# Set environment variable for Playwright to use system Chromium
-ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
-    PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# Tell Playwright to use the installed Chromium
+ENV PLAYWRIGHT_BROWSERS_PATH=/usr/bin \
+    PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 WORKDIR /app/backend
 
