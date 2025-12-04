@@ -1,4 +1,5 @@
 import React from "react";
+import "./Leg.css";
 
 export default function Leg({ leg, isLastLeg, isFirstLeg }) {
   const depTime = new Date(leg.actualDeparture || leg.plannedDeparture);
@@ -9,11 +10,20 @@ export default function Leg({ leg, isLastLeg, isFirstLeg }) {
     new Date(leg.actualDeparture) > new Date(leg.plannedDeparture);
 
   return (
-    <div
-      className={`leg-row ${leg.cancelled ? "cancelled" : ""} ${!isLastLeg ? "with-separator" : ""}`}
-    >
+    <div className={`leg-row ${leg.cancelled ? "cancelled" : ""}`}>
       <div className="station-line">
         <span className="station-name">{leg.origin}</span>
+        {isFirstLeg ? null : (
+          <span>
+            {" "}
+            {depTime.toLocaleTimeString("nl-NL", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })}
+            {delayed && <span className="delay-indicator">▲</span>}
+          </span>
+        )}
         <span className="platform-info">
           <span
             className={`platform-cell ${leg.departurePlatformChanged ? "changed" : ""}`}
@@ -22,7 +32,7 @@ export default function Leg({ leg, isLastLeg, isFirstLeg }) {
           </span>
         </span>
       </div>
-      <div className="leg-content">
+      {isFirstLeg ? (
         <div className="time-cell dep-time">
           {depTime.toLocaleTimeString("nl-NL", {
             hour: "2-digit",
@@ -31,17 +41,29 @@ export default function Leg({ leg, isLastLeg, isFirstLeg }) {
           })}
           {delayed && <span className="delay-indicator">▲</span>}
         </div>
-        <div className="stations-cell"></div>
+      ) : null}
+      {/* "trip" */}
+      {isLastLeg ? (
         <div className="time-cell arr-time">
           {arrTime.toLocaleTimeString("nl-NL", {
             hour: "2-digit",
             minute: "2-digit",
             hour12: false,
           })}
-        </div>{" "}
-      </div>{" "}
+        </div>
+      ) : null}
+      <div className="leg-content"></div>
       <div className="station-line">
         <span className="station-name">{leg.destination}</span>
+        {isLastLeg ? null : (
+          <span>
+            {arrTime.toLocaleTimeString("nl-NL", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })}
+          </span>
+        )}
         <span className="platform-info">
           <span
             className={`platform-cell ${leg.arrivalPlatformChanged ? "changed" : ""}`}

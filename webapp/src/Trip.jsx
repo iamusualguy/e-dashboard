@@ -1,4 +1,5 @@
 import React from "react";
+import "./Trip.css";
 import Leg from "./Leg";
 
 export default function Trip({ trip, onlyTrains }) {

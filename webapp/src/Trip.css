@@ -1,0 +1,31 @@
+.trip-card {
+  border: 3px solid #000;
+  margin: 10px;
+  background-color: #fff;
+}
+
+.trip-header {
+  background-color: #000;
+  color: #fff;
+  padding: 15px 20px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.trip-duration {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Legs container */
+.legs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
