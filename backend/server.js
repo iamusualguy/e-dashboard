@@ -38,7 +38,7 @@ async function generateDashboardScreenshot() {
     });
     const page = await browser.newPage();
     await page.setViewportSize({ width: 748, height: 1072 });
-    await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
+    await page.goto(url, { waitUntil: "networkidle", timeout: 700 });
     await page.screenshot({ path: outputPath, fullPage: false });
     console.log(
       `[${new Date().toISOString()}] Screenshot saved to ${outputPath}`,
@@ -196,5 +196,5 @@ app.listen(PORT, () => {
         `[${new Date().toISOString()}] Initial screenshot failed: ${err.message}`,
       );
     });
-  }, 5000);
+  }, 50);
 });
