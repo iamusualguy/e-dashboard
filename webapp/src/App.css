@@ -1,0 +1,261 @@
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin: 0;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.route {
+  font-size: 24px;
+  font-weight: 700;
+  color: #666;
+}
+
+.last-updated {
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 2px solid #000;
+  white-space: nowrap;
+}
+
+.trips-section {
+  margin-bottom: 30px;
+}
+
+.trip-card {
+  border: 3px solid #000;
+  margin-bottom: 30px;
+  background-color: #fff;
+}
+
+.trip-header {
+  background-color: #000;
+  color: #fff;
+  padding: 15px 20px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.trip-duration {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Legs container */
+.legs-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 0;
+}
+
+/* Individual leg row */
+.leg-row {
+  padding: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+.leg-row:last-child {
+  border-bottom: none;
+}
+
+.leg-row.with-separator {
+  border-bottom: 3px solid #000;
+}
+
+.leg-row.cancelled {
+  background-color: #e0e0e0;
+  opacity: 0.6;
+}
+
+.leg-row.cancelled * {
+  text-decoration: line-through;
+}
+
+/* Leg content - horizontal layout */
+.leg-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+/* Train info */
+.train-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.train-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: #000;
+  text-align: center;
+}
+
+.status-icon {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Time cells - HUGE */
+.time-cell {
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 1;
+  color: #000;
+  letter-spacing: -2px;
+  text-align: center;
+  min-width: 120px;
+}
+
+/* Stations cell - collapsible */
+.stations-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+.station-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.station-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  flex: 1;
+}
+
+.station-separator {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #666;
+  padding: 4px 0;
+}
+
+/* Platform info - SMALL */
+.platform-info {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.platform-cell {
+  font-weight: 700;
+  color: #000;
+}
+
+.platform-cell.changed {
+  color: #d00;
+  text-decoration: underline;
+}
+
+.delay-indicator {
+  margin-left: 8px;
+  font-size: 24px;
+  color: #d00;
+  vertical-align: middle;
+}
+
+.loading {
+  padding: 40px;
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  border: 3px solid #000;
+}
+
+.error {
+  color: #d00;
+  padding: 20px;
+  background: #fee;
+  border: 2px solid #d00;
+  margin: 20px 0;
+}
+
+/* Responsive - narrow screens */
+@media (max-width: 1024px) {
+  .leg-content {
+    gap: 15px;
+  }
+  
+  .time-cell {
+    font-size: 36px;
+    min-width: 90px;
+  }
+  
+  .stations-cell {
+    padding: 0 10px;
+  }
+  
+  .station-name {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .leg-content {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .train-info {
+    width: 100%;
+  }
+  
+  .stations-cell {
+    order: 3;
+    width: 100%;
+    max-width: none;
+  }
+  
+  .time-cell {
+    font-size: 32px;
+  }
+}
