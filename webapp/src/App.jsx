@@ -32,13 +32,13 @@ export default function App() {
         }
       }
 
-      // Filter out trips that have already departed
+      // Filter out trips that have already departed or are cancelled
       const now = new Date();
       const futureTrips = allTrips.filter((trip) => {
         const departureTime = new Date(
           trip.legs[0]?.actualDeparture || trip.legs[0]?.plannedDeparture,
         );
-        return departureTime > now;
+        return departureTime > now && trip.status !== "CANCELLED";
       });
 
       // Sort by departure time
