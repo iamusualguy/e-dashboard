@@ -86,24 +86,6 @@ export default function App() {
 
   return (
     <div className="container">
-      <div className="header">
-        {/* <div> */}
-        {/*   <h1>NS Reisplanner</h1> */}
-        {/*   <div className="route">{routeDesc}</div> */}
-        {/* </div> */}
-        {lastUpdated && (
-          <div className="last-updated">
-            Bijgewerkt:{" "}
-            {lastUpdated.toLocaleTimeString("nl-NL", {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-              hour12: false,
-            })}
-          </div>
-        )}
-      </div>
-
       {trips.length === 0 && !loadingTrips ? (
         <div className="loading">Geen reizen gevonden</div>
       ) : (
@@ -111,6 +93,17 @@ export default function App() {
           {trips.map((trip, idx) => (
             <Trip key={trip.uid || idx} trip={trip} onlyTrains={onlyTrains} />
           ))}
+        </div>
+      )}{" "}
+      {lastUpdated && (
+        <div className="last-updated">
+          Bijgewerkt:{" "}
+          {lastUpdated.toLocaleTimeString("nl-NL", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+          })}
         </div>
       )}
     </div>

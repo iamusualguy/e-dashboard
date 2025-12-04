@@ -8,14 +8,13 @@ body {
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 20px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -43,6 +42,8 @@ h1 {
   background-color: #fff;
   border: 2px solid #000;
   white-space: nowrap;
+  position: fixed;
+  bottom: 10px;
 }
 
 .trips-section {
