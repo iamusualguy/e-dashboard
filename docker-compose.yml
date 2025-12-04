@@ -10,4 +10,5 @@ services:
     environment:
       - NS_API_KEY=${NS_API_KEY}
       - PORT=3000
+      - TZ=Europe/Amsterdam
     restart: unless-stopped
