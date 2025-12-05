@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import { chromium } from "playwright";
+import sharp from "sharp";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -45,7 +46,7 @@ async function initBrowser() {
       ],
     });
     const context = await browser.newContext({
-      viewport: { width: 748, height: 1072 },
+      viewport: { width: 1076, height: 839 },
     });
     page = await context.newPage();
     console.log(
@@ -104,9 +105,15 @@ async function generateDashboardScreenshot() {
     );
 
     await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
-    await page.screenshot({ path: outputPath, fullPage: false });
+    const screenshotBuffer = await page.screenshot({ fullPage: false });
+    
+    // Rotate 90 degrees clockwise
+    await sharp(screenshotBuffer)
+      .rotate(90)
+      .toFile(outputPath);
+    
     console.log(
-      `[${new Date().toISOString()}] Screenshot saved to ${outputPath}`,
+      `[${new Date().toISOString()}] Screenshot saved to ${outputPath} (rotated 90°)`,
     );
   } catch (error) {
     console.error(

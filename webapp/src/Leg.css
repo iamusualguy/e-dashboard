@@ -44,7 +44,7 @@
   font-size: 70px;
   line-height: 1;
   color: transparent;
-  letter-spacing: -2px;
+  letter-spacing: 2px;
   text-align: center;
   min-width: 120px;
   -webkit-text-stroke: var(--time-text-stroke) #111;
