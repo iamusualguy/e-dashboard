@@ -44,12 +44,17 @@
   font-size: 70px;
   line-height: 1;
   color: transparent;
-  letter-spacing: 2px;
+  /* letter-spacing: 5px; */
   text-align: center;
   min-width: 120px;
-  -webkit-text-stroke: var(--time-text-stroke) #111;
-  background: repeating-conic-gradient(#999 0% 25%, transparent 0% 100%) 50% /
-    4px 4px;
+  -webkit-text-stroke: calc(var(--time-text-stroke) / 2) #111;
+  background: repeating-linear-gradient(
+    45deg,
+    #999 0px,
+    #999 var(--time-text-stroke),
+    transparent var(--time-text-stroke),
+    transparent calc(var(--time-text-stroke) * 2)
+  );
   -webkit-background-clip: text;
   background-clip: text;
 }

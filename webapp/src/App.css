@@ -44,6 +44,7 @@ h1 {
   white-space: nowrap;
   position: fixed;
   bottom: 10px;
+  right: 10px;
 }
 
 .trips-section {

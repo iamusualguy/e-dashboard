@@ -106,7 +106,6 @@ export default function App() {
       )}{" "}
       {lastUpdated && (
         <div className="last-updated">
-          Bijgewerkt:{" "}
           {lastUpdated.toLocaleTimeString("nl-NL", {
             hour: "2-digit",
             minute: "2-digit",
