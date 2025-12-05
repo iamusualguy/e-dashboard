@@ -249,24 +249,28 @@ app.get("*", (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(`Backend listening on :${PORT}`);
   console.log(`[${new Date().toISOString()}] Startup complete`);
 
   // Initialize browser once
-  await initBrowser();
+  initBrowser().then(() => {
+    console.log(`[${new Date().toISOString()}] Browser initialization complete`);
+  }).catch((err) => {
+    console.error(`[${new Date().toISOString()}] Browser initialization failed: ${err.message}`);
+  });
 
   // Start screenshot generation after server is ready
   setInterval(generateDashboardScreenshot, SCREENSHOT_INTERVAL);
 
-  // Generate initial screenshot
+  // Generate initial screenshot after giving browser time to initialize
   setTimeout(() => {
     generateDashboardScreenshot().catch((err) => {
       console.error(
         `[${new Date().toISOString()}] Initial screenshot failed: ${err.message}`,
       );
     });
-  }, 150);
+  }, 10000);
 });
 
 // Graceful shutdown handler
