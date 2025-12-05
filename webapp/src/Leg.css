@@ -1,5 +1,5 @@
 :root {
-  --time-text-stroke: 3px;
+  --time-text-stroke: 1px;
 }
 
 /* Individual leg row */
@@ -47,7 +47,7 @@
   letter-spacing: -2px;
   text-align: center;
   min-width: 120px;
-  -webkit-text-stroke: var(--time-text-stroke) #000;
+  -webkit-text-stroke: var(--time-text-stroke) #111;
   background: repeating-conic-gradient(#999 0% 25%, transparent 0% 100%) 50% /
     4px 4px;
   -webkit-background-clip: text;
