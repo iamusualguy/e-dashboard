@@ -20,25 +20,90 @@ console.log(
   `[${new Date().toISOString()}] NS_API_KEY present=${!!process.env.NS_API_KEY}`,
 );
 
-// Screenshot generation function
+// Persistent browser instance
+let browser = null;
+let page = null;
+let isGeneratingScreenshot = false;
+
+// Initialize persistent browser
+async function initBrowser() {
+  try {
+    console.log(`[${new Date().toISOString()}] Initializing browser...`);
+    browser = await chromium.launch({
+      headless: true,
+      executablePath: "/usr/bin/chromium-browser",
+      timeout: 30000,
+      args: [
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--single-process",
+        "--disable-software-rasterizer",
+        "--disable-extensions",
+        "--disable-setuid-sandbox",
+        "--no-zygote",
+      ],
+    });
+    const context = await browser.newContext({
+      viewport: { width: 748, height: 1072 },
+    });
+    page = await context.newPage();
+    console.log(
+      `[${new Date().toISOString()}] Browser initialized successfully`,
+    );
+  } catch (error) {
+    console.error(
+      `[${new Date().toISOString()}] Failed to initialize browser: ${error.message}`,
+    );
+    browser = null;
+    page = null;
+  }
+}
+
+// Close persistent browser
+async function closeBrowser() {
+  if (browser) {
+    try {
+      await browser.close();
+      console.log(`[${new Date().toISOString()}] Browser closed`);
+    } catch (error) {
+      console.error(
+        `[${new Date().toISOString()}] Error closing browser: ${error.message}`,
+      );
+    }
+    browser = null;
+    page = null;
+  }
+}
+
+// Screenshot generation function using persistent browser
 async function generateDashboardScreenshot() {
+  if (isGeneratingScreenshot) {
+    console.log(
+      `[${new Date().toISOString()}] Screenshot generation already in progress, skipping`,
+    );
+    return;
+  }
+
+  isGeneratingScreenshot = true;
   const port = process.env.PORT || 3000;
   const url = `http://localhost:${port}/?from=KZ,ZD&to=ASA`;
   const outputPath = path.join(__dirname, "dashboard.png");
 
-  console.log(
-    `[${new Date().toISOString()}] Generating screenshot from ${url}`,
-  );
-
-  let browser;
   try {
-    browser = await chromium.launch({
-      headless: true,
-      executablePath: "/usr/bin/chromium-browser",
-    });
-    const page = await browser.newPage();
-    await page.setViewportSize({ width: 748, height: 1072 });
-    await page.goto(url, { waitUntil: "networkidle", timeout: 700 });
+    // Initialize browser if not already running
+    if (!browser || !page) {
+      await initBrowser();
+      if (!browser || !page) {
+        throw new Error("Failed to initialize browser");
+      }
+    }
+
+    console.log(
+      `[${new Date().toISOString()}] Generating screenshot from ${url}`,
+    );
+
+    await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
     await page.screenshot({ path: outputPath, fullPage: false });
     console.log(
       `[${new Date().toISOString()}] Screenshot saved to ${outputPath}`,
@@ -47,10 +112,10 @@ async function generateDashboardScreenshot() {
     console.error(
       `[${new Date().toISOString()}] Screenshot generation failed: ${error.message}`,
     );
+    // Close and reset browser on error to try fresh next time
+    await closeBrowser();
   } finally {
-    if (browser) {
-      await browser.close();
-    }
+    isGeneratingScreenshot = false;
   }
 }
 
@@ -184,9 +249,12 @@ app.get("*", (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Backend listening on :${PORT}`);
   console.log(`[${new Date().toISOString()}] Startup complete`);
+
+  // Initialize browser once
+  await initBrowser();
 
   // Start screenshot generation after server is ready
   setInterval(generateDashboardScreenshot, SCREENSHOT_INTERVAL);
@@ -198,5 +266,22 @@ app.listen(PORT, () => {
         `[${new Date().toISOString()}] Initial screenshot failed: ${err.message}`,
       );
     });
-  }, 50);
+  }, 150);
+});
+
+// Graceful shutdown handler
+process.on("SIGTERM", async () => {
+  console.log(
+    `[${new Date().toISOString()}] SIGTERM received, shutting down gracefully`,
+  );
+  await closeBrowser();
+  process.exit(0);
+});
+
+process.on("SIGINT", async () => {
+  console.log(
+    `[${new Date().toISOString()}] SIGINT received, shutting down gracefully`,
+  );
+  await closeBrowser();
+  process.exit(0);
 });
