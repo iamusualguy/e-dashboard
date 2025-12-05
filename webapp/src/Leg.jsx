@@ -8,6 +8,13 @@ export default function Leg({ leg, isLastLeg, isFirstLeg }) {
     leg.actualDeparture &&
     leg.plannedDeparture &&
     new Date(leg.actualDeparture) > new Date(leg.plannedDeparture);
+  
+  const delayMinutes = delayed
+    ? Math.round(
+        (new Date(leg.actualDeparture) - new Date(leg.plannedDeparture)) /
+          60000
+      )
+    : 0;
 
   return (
     <div className={`leg-row ${leg.cancelled ? "cancelled" : ""}`}>
@@ -16,12 +23,12 @@ export default function Leg({ leg, isLastLeg, isFirstLeg }) {
         {isFirstLeg ? null : (
           <span>
             {" "}
-            {depTime.toLocaleTimeString("nl-NL", {
+            {new Date(leg.plannedDeparture).toLocaleTimeString("nl-NL", {
               hour: "2-digit",
               minute: "2-digit",
               hour12: false,
             })}
-            {delayed && <span className="delay-indicator">▲</span>}
+            {delayed && <span className="delay-indicator">+{delayMinutes}</span>}
           </span>
         )}
         <span className="platform-info">
@@ -34,12 +41,12 @@ export default function Leg({ leg, isLastLeg, isFirstLeg }) {
       </div>
       {isFirstLeg ? (
         <div className="time-cell dep-time">
-          {depTime.toLocaleTimeString("nl-NL", {
+          {new Date(leg.plannedDeparture).toLocaleTimeString("nl-NL", {
             hour: "2-digit",
             minute: "2-digit",
             hour12: false,
           })}
-          {delayed && <span className="delay-indicator">▲</span>}
+          {delayed && <span className="delay-indicator">+{delayMinutes}</span>}
         </div>
       ) : null}
       {/* "trip" */}
