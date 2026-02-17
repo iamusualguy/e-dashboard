@@ -1,5 +1,5 @@
 # Build stage for webapp
-FROM node:18-alpine AS webapp-builder
+FROM node:lts-alpine3.22 AS webapp-builder
 
 WORKDIR /app/webapp
 
@@ -16,7 +16,7 @@ COPY webapp/ ./
 RUN npm run build
 
 # Production stage
-FROM node:18-alpine
+FROM node:lts-alpine3.22
 
 # Install Chromium and dependencies for Playwright
 RUN apk add --no-cache \
